@@ -33,8 +33,8 @@
 	        textValue = (TextView) findViewById(R.id.text_value);
 	        Push.start(this, "1234", new MessageListener() {
 	            @Override
-	            public void onGetKey(String key) {
-					//获取的服务端 唯一指定key
+	            public void onGetKey(String id) {
+					//获取的服务端 唯一指定id
 	            }
 	
 	            @Override
@@ -77,11 +77,5 @@
 
 
 #三、            PushLib 我们做了什么 #
-## 1.流程图 ##
-
-st=>start: Start
-e=>end: End
-op1=>operation: My Operation
-sub1=>subroutine: My Subroutine
-cond=>condition: Yes or No?
-io=>inputoutput: catch something...
+## 1.流程 ##
+    init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
