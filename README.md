@@ -57,7 +57,14 @@
 	        });
 	
 	    }
-	
+
+		@Override
+	    protected void attachBaseContext(Context base) {
+	        Push.proguard(base);
+    		//调用此方法，会启动进程守护，会在程序被杀死的情况下依然连接socket
+	        super.attachBaseContext(base);
+	    }
+
 	    @Override
 	    protected void onDestroy() {
 	        super.onDestroy();
@@ -73,7 +80,9 @@
 		    "type":"new"
 	    }
 ## 5.其他 ##
-
+	android进程守护：参考[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
+    A lite library, you can make your project depend it easily, and your project will be UNDEAD
+    （这是一个轻量级的库，保证你的程序不死）
 
 
 #三、            PushLib 我们做了什么 #
