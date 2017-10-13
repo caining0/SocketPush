@@ -90,7 +90,7 @@
 ## 1.流程 ##
     init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
 ## Socket连接中的SSL双向认证 ##
-请转向[https://github.com/Oslanka/SocketPush/blob/master/SSL.md](https://github.com/Oslanka/SocketPush/blob/master/SSL.md)
+请转向
 
 
 ##  Contact me  ##
