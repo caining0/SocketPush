@@ -89,9 +89,10 @@
 ## 三、            PushLib 我们做了什么  ##
 ## 1.流程 ##
     init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
-## Socket连接中的SSL双向认证 ##
+## 2.Socket连接中的SSL双向认证 ##
 请转向[https://github.com/Oslanka/SocketPush/blob/master/SSL.md](https://github.com/Oslanka/SocketPush/blob/master/SSL.md)
-
+## 3.Socket 字节规定 ##
+请转向[https://github.com/Oslanka/SocketPush/blob/master/byte.md](https://github.com/Oslanka/SocketPush/blob/master/byte.md)
 
 ##  Contact me  ##
 
