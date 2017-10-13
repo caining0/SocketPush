@@ -1,4 +1,4 @@
-#一、     理论知识 #
+## 一、     理论知识  ##
 ## TCP、UDP和HTTP关系  ##
     > TCP/IP是个协议组，可分为三个层次：网络层、传输层和应用层。 
     > 网络层：有 IP协议、ICMP协议、ARP协议、RARP协议和BOOTP协议。 
@@ -12,7 +12,7 @@
     **Socket**的英文原义是“孔”或“插座”。通常也称作"套接字"，用于描述IP地址和端口，是一个通信链的句柄，可以用来实现不同虚拟机或不同计算机之间的通信。
     socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。
 
-#二、            Push sdk android用法 #
+## 二、            Push sdk android用法  ##
 ## 1. 引入pushlib 库 ##
     compile project(':pushlib')
 ## 2.初始化 ##
@@ -86,12 +86,10 @@
     说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
     （这是一个轻量级的库，保证你的程序不死）
 
-
-#三、            PushLib 我们做了什么 #
+## 三、            PushLib 我们做了什么  ##
 ## 1.流程 ##
     init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
 
-
-# Contact me #
+##  Contact me  ##
 
 Email: [cainingning@lashou-inc.com](cainingning@lashou-inc.com)
