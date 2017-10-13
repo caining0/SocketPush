@@ -80,11 +80,18 @@
 		    "type":"new"
 	    }
 ## 5.其他 ##
-	android进程守护：参考[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
-    A lite library, you can make your project depend it easily, and your project will be UNDEAD
+### android进程守护：参考 ###
+[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
+
+    说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
     （这是一个轻量级的库，保证你的程序不死）
 
 
 #三、            PushLib 我们做了什么 #
 ## 1.流程 ##
     init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
+
+
+# Contact me #
+
+Email: [cainingning@lashou-inc.com](cainingning@lashou-inc.com)
