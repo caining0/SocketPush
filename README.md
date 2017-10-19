@@ -1,3 +1,4 @@
+###说明：本SDK为公司内部使用，可参考共同探讨学习，如想使用，请联系商务  ###
 ## 一、     理论知识  ##
 ## TCP、UDP和HTTP关系  ##
     > TCP/IP是个协议组，可分为三个层次：网络层、传输层和应用层。 
@@ -79,6 +80,8 @@
 		    "orderid":"38468",
 		    "type":"new"
 	    }
+"action":"notification" 字段举例如
+[https://github.com/Oslanka/SocketPush/blob/master/notification.gif](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)
 ## 5.其他 ##
 ### android进程守护参考 ：[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
 
