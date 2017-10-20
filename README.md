@@ -81,7 +81,7 @@
 		    "type":"new"
 	    }
 "action":"notification" 字段举例如
-[https://github.com/Oslanka/SocketPush/blob/master/notification.gif](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)
+![avatar](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)
 ## 5.其他 ##
 ### android进程守护参考 ：[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
 
