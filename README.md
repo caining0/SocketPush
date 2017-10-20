@@ -88,6 +88,8 @@
     说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
     （这是一个轻量级的库，保证你的程序不死）本使用已对MarsDaemon做修改，不必继承DaemonApplication
     直接调用 Push.proguard(base);
+###启用进程守护与否###
+![avatar](https://github.com/Oslanka/SocketPush/blob/master/proguard.gif)
 
 ### 启用进程守护与否 ###
 
