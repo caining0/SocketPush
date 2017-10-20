@@ -73,14 +73,14 @@
 	    }
     }
 ## 4.PushSDK推送数据结构 ##
-    说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定，如想使用
-    Notification，只需指定 "action":"notification"，当action不指定为"notification"，为普通消息。
+    说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定.
 	    {
 		    "action":"notification",
 		    "orderid":"38468",
 		    "type":"new"
 	    }
-"action":"notification" 字段举例如
+### "action":"notification" ### 
+    如想使用Notification，只需指定 "action":"notification"，当action不指定为"notification"，为普通消息。
 ![avatar](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)
 ## 5.其他 ##
 ### android进程守护参考 ：[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
