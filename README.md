@@ -1,3 +1,4 @@
+###说明：本SDK为公司内部使用，可参考共同探讨学习，如想使用，请联系商务  ###
 ## 一、     理论知识  ##
 ## TCP、UDP和HTTP关系  ##
     > TCP/IP是个协议组，可分为三个层次：网络层、传输层和应用层。 
@@ -72,19 +73,25 @@
 	    }
     }
 ## 4.PushSDK推送数据结构 ##
-    说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定，如想使用
-    Notification，只需指定 "action":"notification"，当action不指定为"notification"，为普通消息。
+    说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定.
 	    {
 		    "action":"notification",
 		    "orderid":"38468",
 		    "type":"new"
 	    }
+### "action":"notification" ### 
+    如想使用Notification，只需指定 "action":"notification"，当action不指定为"notification"，为普通消息。
+![avatar](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)
 ## 5.其他 ##
 ### android进程守护参考 ：[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
 
     说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
     （这是一个轻量级的库，保证你的程序不死）本使用已对MarsDaemon做修改，不必继承DaemonApplication
     直接调用 Push.proguard(base);
+
+### 启用进程守护与否 ###
+
+![avatar](https://github.com/Oslanka/SocketPush/blob/master/proguard.gif)
 
 ## 三、            PushLib 我们做了什么  ##
 ## 1.流程 ##
