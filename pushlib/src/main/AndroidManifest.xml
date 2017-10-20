@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="com.example.pushlib">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+        <service android:name="com.lashou.pushlib.service.MyService" />
+        <receiver android:name="com.lashou.pushlib.service.MessageReceiver"/>
+        <receiver android:name="com.lashou.pushlib.service.Receiver1" android:process=":process1"/>
+        <service android:name="com.lashou.pushlib.service.Service1" android:process=":process1"/>
+        <service android:name="com.lashou.pushlib.service.Service2" android:process=":process2"/>
+        <receiver android:name="com.lashou.pushlib.service.Receiver2" android:process=":process2"/>
+    </application>
+
+</manifest>
