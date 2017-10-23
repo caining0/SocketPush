@@ -3,8 +3,8 @@
 ##socket 简介##
 
 
-    **Socket**的英文原义是“孔”或“插座”。通常也称作"套接字"，用于描述IP地址和端口，是一个通信链的句柄，可以用来实现不同虚拟机或不同计算机之间的通信。
-    socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。
+  **Socket**的英文原义是“孔”或“插座”。通常也称作"套接字"，用于描述IP地址和端口，是一个通信链的句柄，可以用来实现不同虚拟机或不同计算机之间的通信。
+  socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。
 ## socket连接的三次握手 ##
     第一次握手：客户端发送syn包(syn=j)到服务器，并进入SYN_SEND状态，等待服务器确认；
 
@@ -13,27 +13,29 @@
     第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
 SYN:([https://baike.baidu.com/item/SYN/8880122?fr=aladdin](https://baike.baidu.com/item/SYN/8880122?fr=aladdin))
 ## Socket建立网络连接的步骤 ##
-    建立Socket连接至少需要一对套接字，其中一个运行于客户端，称为ClientSocket ，另一个运行于服务器端，称为ServerSocket 。
-    套接字之间的连接过程分为三个步骤：服务器监听，客户端请求，连接确认。
-    1。服务器监听：服务器端套接字并不定位具体的客户端套接字，而是处于等待连接的状态，实时监控网络状态，等待客户端的连接请求。
+   建立Socket连接至少需要一对套接字，其中一个运行于客户端，称为ClientSocket ，另一个运行于服务器端，称为ServerSocket 。
+   套接字之间的连接过程分为三个步骤：服务器监听，客户端请求，连接确认。
+
+   1.服务器监听：服务器端套接字并不定位具体的客户端套接字，而是处于等待连接的状态，实时监控网络状态，等待客户端的连接请求。
     
-    2。客户端请求：指客户端的套接字提出连接请求，要连接的目标是服务器端的套接字。为此，客户端的套接字必须首先描述它要连接的服务器的套接字，指出服务器端套接字的地址和端口号，然后就向服务器端套接字提出连接请求。
+   2.客户端请求：指客户端的套接字提出连接请求，要连接的目标是服务器端的套接字。为此，客户端的套接字必须首先描述它要连接的服务器的套接字，指出服务器端套接字的地址和端口号，然后就向服务器端套接字提出连接请求。
     
-    3。连接确认：当服务器端套接字监听到或者说接收到客户端套接字的连接请求时，就响应客户端套接字的请求，建立一个新的线程，把服务器端套接字的描述发给客户端，一旦客户端确认了此描述，双方就正式建立连接。而服务器端套接字继续处于监听状态，继续接收其他客户端套接字的连接请求。
+   3.连接确认：当服务器端套接字监听到或者说接收到客户端套接字的连接请求时，就响应客户端套接字的请求，建立一个新的线程，把服务器端套接字的描述发给客户端，一旦客户端确认了此描述，双方就正式建立连接。而服务器端套接字继续处于监听状态，继续接收其他客户端套接字的连接请求。
 
 ## TCP和UDP  ##
-TCP：    传输控制协议，面向连接的的协议，稳定可靠。当客户和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。
+**TCP**：    传输控制协议，面向连接的的协议，稳定可靠。当客户和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。
 
-UDP：    广播式数据传输，UDP不提供可靠性，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不用在客户和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。
+**UDP**：    广播式数据传输，UDP不提供可靠性，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不用在客户和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。
 ## HTTP 与socket比较 ##
-   1.socket是对TCP/IP协议的封装和应用，socket又分TCP和UDP两种。
 
+**1.关系**
+
+**socket**是对TCP/IP协议的封装和应用，**socket**又分TCP和UDP两种。
 而HTTP协议是建立在TCP协议之上的一种应用:
 HTTP连接最显著的特点是客户端发送的每次请求都需要服务器回送响应，在请求结束后，会主动释放连接。从建立连接到关闭连接的过程称为“一次连接”。
-
 可以看出：HTTP是基于socket。
 
-2.优缺点：
+**2.优缺点：**
 
         1）.socket
     优点：	
@@ -55,7 +57,7 @@ HTTP连接最显著的特点是客户端发送的每次请求都需要服务器�
     		（2）.如实现实时交互，服务器性能压力大
     		（3）.数据传输安全性差
 	
-3.对于消耗内存比较
+**3.对于消耗内存比较**
 
 ![avatar](https://github.com/Oslanka/SocketPush/blob/master/SocketAndHttp.png)
 
@@ -131,25 +133,32 @@ XMPP的前身是Jabber，一个开源形式组织产生的网络即时通信协�
 	    }
     }
 ## 4.PushSDK推送数据结构 ##
-    说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定.
+   说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定.
+
 	    {
 		    "action":"notification",
 		    "orderid":"38468",
 		    "type":"new"
 	    }
 ### "action":"notification" ### 
-    如想使用Notification，只需指定 "action":"notification"，当action不指定为"notification"，为普通消息。
+   如想使用Notification，只需指定
+ `"action":"notification"`
+，当action不指定为"notification"，为普通消息。
+
 ![avatar](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)
 ## 5.其他 ##
 ### android进程守护参考 ：[https://github.com/Marswin/MarsDaemon](https://github.com/Marswin/MarsDaemon)
 
-    说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
-    （这是一个轻量级的库，保证你的程序不死）本使用已对MarsDaemon做修改，不必继承DaemonApplication
-    直接调用 Push.proguard(base);
-      进程守护实现 
-    1.提高进程优先级，降低被回收或杀死概率
-    2.在进程被干掉后，进行拉起
-    程序保活方法很多种，不一一列举实现。
+   说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
+   （这是一个轻量级的库，保证你的程序不死）本使用已对MarsDaemon做修改，不必继承DaemonApplication
+   直接调用 Push.proguard(base);
+
+**进程守护实现**
+
+        1.提高进程优先级，降低被回收或杀死概率
+    	2.在进程被干掉后，进行拉起
+
+   程序保活方法很多种，不一一列举实现。
 
 ### 启用进程守护与否 ###
 
