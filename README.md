@@ -96,13 +96,22 @@
    
 ## 三、            PushLib 我们做了什么  ##
 ## 1.流程 ##
-    init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
+    init=>获取唯一id=>启动服务=>socket请求连接=>连接成功（socket有连接失败重连机制）
+	
+## 2.唯一身份ID的生成 ##
+
+Push服务器生成ID标准：
+需客户端上传参数：apiId（A），包名，和设备唯一Id（B）；A+包名+B 共同生成了后台的ID，可严格的去重，只有同apiId下设备Id重复，才可能导致后台生成的ID重复（小概率事件）。可以认为一个ID唯一标示一个设备。从而达到推送指定设备目的。
+
+如，用户X想与用户Y通过Push服务器通信，那么X，与Y 初始化时的apiId和包名必须相同，而设备id不同，X与Y可通过Push服务通信。 
 
 
 
-## 2.Socket连接中的SSL双向认证 ##
+## 3.Socket连接中的SSL双向认证 ##
+
 请转向[https://github.com/Oslanka/SocketPush/blob/master/SSL.md](https://github.com/Oslanka/SocketPush/blob/master/SSL.md)
-## 3.Socket 字节规定 ##
+
+## 4.Socket 字节规定 ##
 ## Socket 传送内容字节规定 ##
 
 规定字节排列方式，用于取对应字节，处理逻辑
