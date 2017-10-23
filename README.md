@@ -137,10 +137,17 @@
 ## 三、            PushLib 我们做了什么  ##
 ## 1.流程 ##
     init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
+
 ## 2.Socket连接中的SSL双向认证 ##
 请转向[https://github.com/Oslanka/SocketPush/blob/master/SSL.md](https://github.com/Oslanka/SocketPush/blob/master/SSL.md)
 ## 3.Socket 字节规定 ##
-请转向[https://github.com/Oslanka/SocketPush/blob/master/byte.md](https://github.com/Oslanka/SocketPush/blob/master/byte.md)
+## Socket 传送内容字节规定 ##
+
+规定字节排列方式，用于取对应字节，处理逻辑
+
+![avatar](https://github.com/Oslanka/SocketPush/blob/master/byte.png)
+
+packet 4字节，header 2字节，version 2字节，operation 4字节，sequence 4 字节，后面是body 理论上不限制。
 
 ##  Contact me  ##
 
