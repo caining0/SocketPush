@@ -11,7 +11,7 @@
     第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态；
 
     第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=k+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。
-([https://baike.baidu.com/item/SYN/8880122?fr=aladdin](https://baike.baidu.com/item/SYN/8880122?fr=aladdin))
+SYN:([https://baike.baidu.com/item/SYN/8880122?fr=aladdin](https://baike.baidu.com/item/SYN/8880122?fr=aladdin))
 ## Socket建立网络连接的步骤 ##
     建立Socket连接至少需要一对套接字，其中一个运行于客户端，称为ClientSocket ，另一个运行于服务器端，称为ServerSocket 。
     套接字之间的连接过程分为三个步骤：服务器监听，客户端请求，连接确认。
@@ -21,21 +21,18 @@
     
     3。连接确认：当服务器端套接字监听到或者说接收到客户端套接字的连接请求时，就响应客户端套接字的请求，建立一个新的线程，把服务器端套接字的描述发给客户端，一旦客户端确认了此描述，双方就正式建立连接。而服务器端套接字继续处于监听状态，继续接收其他客户端套接字的连接请求。
 
-## TCP、UDP和HTTP关系  ##
-    > TCP/IP是个协议组，可分为三个层次：网络层、传输层和应用层。 
-    > 网络层：有 IP协议、ICMP协议、ARP协议、RARP协议和BOOTP协议。 
-    > 传输层：有TCP协议与UDP协议。TCP和UDP区别：TCP提供有保证的数据传输，而UDP不提供。 
-    > 应用层：FTP、HTTP、SMTP、DNS等协议。因此，HTTP本身就是一个协议，是从Web服务器传输超文
-    本到本地浏览器的传送协议。
-
+## TCP和UDP  ##
     TCP：传输控制协议，面向连接的的协议，稳定可靠。当客户和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。
     UDP：广播式数据传输，UDP不提供可靠性，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不用在客户和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。
 ## HTTP 与socket比较 ##
+    socket是对TCP/IP协议的封装和应用，socket又分TCP和UDP两种。
+	HTTP协议是建立在TCP协议之上的一种应用:HTTP连接最显著的特点是客户端发送的每次请求都需要服务器回送响应，在请求结束后，会主动释放连接。从建立连接到关闭连接的过程称为“一次连接”。
+	可以看出：http是基于socket。
     1.socket
     优点：	
 			1.传输数据为字节级，传输数据可自定义，数据量小。相应的移动端开发，手机费用低
     	   	2.传输数据时间短，性能高
-    	   	3.适合C/S之间信息实时交互
+    	   	3.适合Client/Server(C/S)之间信息实时交互
     	  	4.可以加密，数据安全性高
     缺点： 	
 			1.需要对传输的数据进行解析，转化为应用级的数据
@@ -52,6 +49,15 @@
 	    	3.数据传输安全性差
 	3.对于消耗内存比较
 ![avatar](https://github.com/Oslanka/SocketPush/blob/master/SocketAndHttp.png)
+## xmpp简介##
+全称:可扩展通讯和表示协议
+简介:可扩展通讯和表示协议 (XMPP) 可用于服务类实时通讯、表示和需求响应服务中的XML数据元流式传输。XMPP以Jabber协议为基础，而Jabber是即时通讯中常用的开放式协议。
+XMPP（可扩展消息处理现场协议）是基于可扩展标记语言（XML）的协议，它用于即时消息（IM）以及在线现场探测。
+XMPP的前身是Jabber，一个开源形式组织产生的网络即时通信协议。
+（XMPP这里不深讲，有兴趣同学，可以自己研究研究）。
+
+## 我们为什么选socket ##
+相比http，socket能满足我们长连接需求，而http不行。虽然XMPP同样可以实现本库功能，但XMPP更侧重IM（即时通讯），切XMPP没有Socket使用灵活。 故最终选用Socket 作为Push主框架。
 
     
 ## 二、            Push sdk android用法  ##
@@ -129,11 +135,15 @@
     说明：A lite library, you can make your project depend it easily, and your project will be UNDEAD
     （这是一个轻量级的库，保证你的程序不死）本使用已对MarsDaemon做修改，不必继承DaemonApplication
     直接调用 Push.proguard(base);
+      进程守护实现 
+    1.提高进程优先级，降低被回收或杀死概率
+    2.在进程被干掉后，进行拉起
+    程序保活方法很多种，不一一列举实现。
 
 ### 启用进程守护与否 ###
 
 ![avatar](https://github.com/Oslanka/SocketPush/blob/master/proguard.gif)
-
+   
 ## 三、            PushLib 我们做了什么  ##
 ## 1.流程 ##
     init=>获取唯一id=>启动服务=>socket请求连接=>连接成功
