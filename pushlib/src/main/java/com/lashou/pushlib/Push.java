@@ -135,6 +135,8 @@ public class Push {
 
         DaemonClient daemonClient = new DaemonClient(getDaemonConfigurations());
         daemonClient.onAttachBaseContext(baseContext);
+        //you have to start the service once.
+        baseContext.startService(new Intent(baseContext, Service1.class));
     }
 
     public static DaemonConfigurations getDaemonConfigurations() {
