@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onMessageReceive(String message) {
+            public void onMessageReceive(final String message) {
+                    Log.i("push------>", message);
                 textValue.setText(message);
             }
 
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Push.stop();
         super.onDestroy();
-        Push.stop(this);
     }
 }
 

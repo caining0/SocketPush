@@ -25,7 +25,7 @@ public class AuthSSLSocket {
         //Trust Key Store
         KeyStore keyStore = KeyStore.getInstance("BKS");
         InputStream keyStream = context.getAssets().open("client.bks");
-        char keyStorePass[]="密码".toCharArray();  //证书密码
+        char keyStorePass[]="123456".toCharArray();  //证书密码
         keyStore.load(keyStream ,keyStorePass);
         keyStream.close();
         String protocol = "TLSv1.2";
@@ -37,10 +37,10 @@ public class AuthSSLSocket {
         KeyManager[] kms = null;
         keyStore = KeyStore.getInstance("BKS");
         keyStream = context.getAssets().open("client.bks");
-        keyStore.load(keyStream,"密码".toCharArray());
+        keyStore.load(keyStream,"123456".toCharArray());
         keyStream.close();
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("X509");
-        keyManagerFactory.init(keyStore, "密码".toCharArray());
+        keyManagerFactory.init(keyStore, "123456".toCharArray());
         kms = keyManagerFactory.getKeyManagers();
 
         SSLContext sslContext = SSLContext.getInstance(protocol);

@@ -1,1 +1,1 @@
-include ':PadTV', ':xrecyclerview', ':PadOrder', ':pushlib', ':app'
+include  ':pushlib', ':app'

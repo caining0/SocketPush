@@ -22,12 +22,14 @@
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_main);
 	        textValue = (TextView) findViewById(R.id.text_value);
+
+			//Push  begin 
 	        Push.start(this, "1234", new MessageListener() {
 	            @Override
 	            public void onGetKey(String id) {
 					//获取的服务端 唯一指定id
 	            }
-	
+					
 	            @Override
 	            public void onMessageReceive(String message) {
 	                textValue.setText(message);
@@ -66,13 +68,13 @@
    说明：pushSDK 推送数据结构 采用json形式，json形式无限制，但action字段必须固定.
 
 	    {
-		    "action":"notification",
+		    "open":"notification",
 		    "orderid":"38468",
 		    "type":"new"
 	    }
-### "action":"notification" ### 
+### "open":"notification" ###
    如想使用Notification，只需指定
- `"action":"notification"`
+ `"open":"notification"`
 ，当action不指定为"notification"，为普通消息。
 
 ![avatar](https://github.com/Oslanka/SocketPush/blob/master/notification.gif)

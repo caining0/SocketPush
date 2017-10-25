@@ -2,28 +2,41 @@ package com.lashou.pushlib.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.lashou.pushlib.Push;
 import com.lashou.pushlib.config.Configs;
-import com.lashou.pushlib.utils.Logger;
-import com.lashou.pushlib.utils.PushMessageUtil;
+import com.lashou.pushlib.utils.SharedPrefeUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import static com.lashou.pushlib.Push.NOTIFICATION;
 import static com.lashou.pushlib.Push.getActivity;
-import static com.lashou.pushlib.Push.messageListener;
 
 
+/**
+ * @author Oslanka
+ * @date 邮箱 Oslanka@163.com
+ */
 public class MyService extends Service {
 
     private static final String TAG = "MyService";
@@ -34,27 +47,26 @@ public class MyService extends Service {
     private MyBinder mBinder = new MyBinder();
     private MessageClient client;
     private String appkey;
-    private static MessageReceiver mPushMessageReceiver;
-    private static boolean regester = false;
-    public static boolean onStart = false;
+//    private static MessageReceiver mPushMessageReceiver;
+//    private static boolean onCreate = false;
 
 
-
-    @Override  
-    public void onCreate() {  
+    @Override
+    public void onCreate() {
         super.onCreate();
-        onStart=true;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null){
+        if (intent != null) {
             appkey = intent.getStringExtra(EXTRA_APPKEY);
         }
-        if(!TextUtils.isEmpty(appkey)){
-            client = new MessageClient(MyService.this,mBinder, serverIp,serverPort,appkey);
+        if (!TextUtils.isEmpty(appkey)) {
+//            onCreate = true;
+            Log.i("info", "=====>start");
+            client = MessageClient.getInstance(MyService.this, mBinder, serverIp, serverPort, appkey);
             try {
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
                         client.connect();
@@ -63,20 +75,27 @@ public class MyService extends Service {
             } catch (IllegalThreadStateException e) {
                 e.printStackTrace();
             }
-            registeBroadCast();
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
+//        onCreate = false;
         super.onDestroy();
-        onStart=false;
         Log.d(TAG, "onDestroy() executed");
-        if(client != null){
-            client.disconnect();
-            getActivity().unregisterReceiver(mPushMessageReceiver);
-            regester=false;
+        if (client != null) {
+            try {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        client.disconnect();
+                        client=null;
+                    }
+                }.start();
+            } catch (IllegalThreadStateException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -88,16 +107,17 @@ public class MyService extends Service {
     public class MyBinder extends Binder {
 
         private int reConnectTime = 10 * 1000;
+
         /**
          * 异常情况10秒重连
          */
-        public void delayStartPushServer(){
+        public void delayStartPushServer() {
 
-            if(client == null){
-                client = new MessageClient(MyService.this,this, serverIp,serverPort,appkey);
+            if (client == null) {
+                client = MessageClient.getInstance(MyService.this, this, serverIp, serverPort, appkey);
             }
             client.disconnect();
-            new Thread(){
+            new Thread() {
                 @Override
                 public void run() {
                     try {
@@ -111,66 +131,27 @@ public class MyService extends Service {
         }
 
     }
-    /**
-     * 注册广播
-     */
-    private static void registeBroadCast() {
-        if (regester) return;
-        regester = true;
-        mPushMessageReceiver = new MessageReceiver();
-        mPushMessageReceiver.setmOnMessageReceiveListener(new OnMessageReceiveListener() {
-            @Override
-            public void onMessageReceive(String message) {
-                if (messageListener != null)
-                    messageListener.onMessageReceive(message);
-                try {
-                    JSONObject jsonObject = new JSONObject(message);
-                    if (NOTIFICATION.equals(jsonObject.optString("action"))) {
-                        sendNotification(message);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onPushSrcMessage(String message) {
-//                Logger.i("uid--------->" + appkey + "  " + message);
-//                messageListener.onMessageReceive(message);
-            }
-
-            @Override
-            public void onHeartBeat(String time) {
-                if (messageListener != null)
-                    messageListener.onHeartBeat(time);
-            }
-
-            @Override
-            public void onError(String time) {
-                Logger.i("uid=" + "  error  " + time);
-                if (messageListener != null)
-                    messageListener.onError(time);
-            }
-        });
-        IntentFilter intentFilter = new IntentFilter();
-        //设置接收广播的类型
-        intentFilter.addAction(PushMessageUtil.ACITION_MESSAGE);
-        //调用Context的registerReceiver（）方法进行动态注册
-        getActivity().registerReceiver(mPushMessageReceiver, intentFilter);
-    }
-
-    private static int NOTIFICATION_ID = 1;
-
-    private static void sendNotification(String message) {
+    private static void sendNotification(Context context, String message) {
         NotificationManager mNotificationManager =
-                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //设置点击通知跳转的activity
-
+        Intent resultIntent = new Intent(context, NotificationClickReceiver.class);
+        resultIntent.setAction(NotificationClickReceiver.ACTION_NOTIFICATION_OPENED);
+        resultIntent.putExtra(NotificationClickReceiver.NOTIFICATION_MESSAGE, message);
+        long id = SharedPrefeUtils.getLong(context, "notificationId", 0);
+        if (id > 10000) {
+            id = 0;
+        }
+        SharedPrefeUtils.saveLong(context, "notificationId", ++id);
+        PendingIntent resultPendingIntent = PendingIntent.getBroadcast(context, (int) id, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int icon = Push.getNotificationIcon() == 0 ? android.R.mipmap.sym_def_app_icon : Push.getNotificationIcon();
         Notification notification =
-                new NotificationCompat.Builder(getActivity()).setSmallIcon(android.R.mipmap.sym_def_app_icon)
+                new NotificationCompat.Builder(context).setSmallIcon(icon)
+                        .setLargeIcon(drawableToBitmap(context.getResources().getDrawable(icon)))
                         .setContentTitle(message)
                         .setContentText(message)
-                        .build();
+                        .setContentIntent(resultPendingIntent).build();
 
 
 //        mBuilder.setContentIntent(resultPendingIntent);
@@ -185,6 +166,79 @@ public class MyService extends Service {
                 | Notification.DEFAULT_LIGHTS;
 
 
-        mNotificationManager.notify(NOTIFICATION_ID++, notification);
+        mNotificationManager.notify((int) id, notification);
     }
+
+    private static Bitmap drawableToBitmap(Drawable drawable) {
+
+
+        Bitmap bitmap = Bitmap.createBitmap(
+
+                drawable.getIntrinsicWidth(),
+
+                drawable.getIntrinsicHeight(),
+
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+
+                        : Bitmap.Config.RGB_565);
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+
+        drawable.draw(canvas);
+
+        return bitmap;
+
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
+    }
+
+    public static Handler getMyHandler() {
+        if (myHandler == null) {
+            myHandler = new Handler(Looper.getMainLooper()) {
+                private SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what) {
+                        case 0:
+                            if (msg.obj != null) {
+                                String message = (String) msg.obj;
+                                if (Push.getMessageListener() != null) {
+                                    Push.getMessageListener().onMessageReceive(message);
+                                }
+                                try {
+                                    JSONObject jsonObject = new JSONObject(message);
+                                    if (NOTIFICATION.equals(jsonObject.optString("action"))) {
+
+                                        sendNotification(getActivity(), message);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                            break;
+                        case 1:
+                            long l = (long) msg.obj;
+                            if (Push.getMessageListener() != null) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTimeInMillis(l);
+                                Push.getMessageListener().onHeartBeat(formatDate.format(calendar.getTime()));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            };
+        }
+        return myHandler;
+    }
+
+    private static Handler myHandler;
 }
