@@ -3,6 +3,7 @@ package com.androidsocket.test;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.lashou.pushlib.Push;
 import com.lashou.pushlib.service.OnNotificationOpenListener;
@@ -27,6 +28,7 @@ public class App extends Application {
 
             @Override
             public void open(Context context, String mes) {
+                Toast.makeText(context, "用户点击了通知", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

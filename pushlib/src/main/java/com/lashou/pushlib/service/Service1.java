@@ -3,7 +3,6 @@ package com.lashou.pushlib.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import com.lashou.pushlib.http.HttpUtils;
 import com.lashou.pushlib.utils.SharedPrefeUtils;
@@ -21,7 +20,6 @@ public class Service1 extends Service {
         //TODO do some thing what you want..
 //        if (!Push.isOnProguard()&& !TextUtils.isEmpty(key)) {
         final String  apiId= SharedPrefeUtils.getString(getApplicationContext(),"apiId","");
-        Toast.makeText(this, ""+apiId, Toast.LENGTH_SHORT).show();
         HttpUtils.getInstance(new HttpUtils.CallBackHttp() {
             @Override
             public void finish(String msg) {
